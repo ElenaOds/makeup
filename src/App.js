@@ -1,9 +1,11 @@
+import MainPage from './pages/MainPage';
 
 function App() {
+ 
   return (
     <div>
-   
-   Makeup app
+   <h1>MakeUp app</h1>
+   <MainPage/>
     </div>
   );
 }
