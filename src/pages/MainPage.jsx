@@ -1,17 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { getData } from '../services/makeupApi';
 import TableList from '../components/TableList';
 import SwitchList from '../components/SwitchList';
+import Filter from '../components/Filter';
+
 
 const MainPage = () => {
     const [ dataSource, setDataSource ] = useState ([]);
     const [ loading, setLoading ] = useState(false);
-    const [groupByBrand, setGroupByBrand] = useState(false);
-    const [groupByCategory, setGroupByCategory] = useState(false);
-    const [groupByType, setGroupByType] = useState(false);
-
-
+    const [ groupByBrand, setGroupByBrand ] = useState(false);
+    const [ groupByCategory, setGroupByCategory ] = useState(false);
+    const [ groupByType, setGroupByType ] = useState(false);
+    const [filteredData, setFilteredData] = useState([]);
   
+
     useEffect(() => {
         const fetchData = async () => {
           try {
@@ -22,6 +24,7 @@ const MainPage = () => {
                 key: item.id,
             }));
             setDataSource(itemsData);
+            setFilteredData(itemsData);
             setLoading(false);
           } catch (error) {
             console.error(error);
@@ -30,9 +33,7 @@ const MainPage = () => {
         fetchData();
       }, []);
 
-      
-   
-      const handleGroupByBrand = (checked) => {
+         const handleGroupByBrand = (checked) => {
         setGroupByBrand(checked);
         if (checked) {
           setGroupByCategory(false);
@@ -80,15 +81,18 @@ const MainPage = () => {
       : groupByCategory ? 'category' 
       : groupByType ? 'product_type' 
       : null;
-      
-      const groupedData = groupBy ? sortGroupedData(groupData(dataSource, groupBy)) : { Products: dataSource };
+
+  
+      const groupedData = groupBy ? sortGroupedData(groupData(filteredData, groupBy)) : { Products: filteredData };
 
   return (
     <div>
       <SwitchList groupByBrand={groupByBrand} handleGroupByBrand={handleGroupByBrand}
       handleGroupByCategory={handleGroupByCategory} groupByCategory={groupByCategory}
-      groupByType={groupByType} handleGroupByType={handleGroupByType}/>
-      
+      groupByType={groupByType} handleGroupByType={handleGroupByType}/> 
+
+      <Filter dataSource={dataSource} setFilteredData={setFilteredData}/>
+
       <TableList loading={loading} groupedData={groupedData}/>
     </div>
   )
