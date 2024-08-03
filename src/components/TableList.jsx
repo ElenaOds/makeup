@@ -1,41 +1,57 @@
-import { Table } from "antd";
+import { Table, Tag } from "antd";
 import { columns } from '../helpers/columns';
+import { getTextColor } from '../helpers/colors';
 
-const TableList = ({ dataSource }) => {
-   
-  return (
-    <Table 
-      dataSource={dataSource} 
-      columns={columns} 
-      bordered
-      expandable={{
-        expandedRowRender: (record) => (
-          <ul
-            style={{
-              margin: 0,
-              display: 'flex',
-              justifyContent: 'stretch',
-              flexWrap: 'wrap',
-              width: '100%',
-              gap: '20px',
-            }}
-          >
-            {record.product_colors?.map((color, index) => (
-                <li style={{backgroundColor: color.hex_value, 
-                            width: '100px', 
-                            height: '50px',
-                            display: 'flex',
-                            borderRadius: '5px',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            padding: '5px'}} key={index}>
-                    <p style={{color: '#fff', textAlign: 'center'}}>{color.colour_name}</p></li>
-            ))}
-          </ul>
-        ),
+const TableList = ({ loading, groupedData }) => {
+
+
+
+return (
+  <>
+  {Object.keys(groupedData).map(groupKey => (
+  <Table 
+    key={groupKey}
+    dataSource={groupedData[groupKey]}
+    columns={columns(groupKey)} 
+    loading={loading}
+    bordered
+    
+    expandable={{
+      expandedRowRender: (record) => ( 
+      <div
+      style={{
+      margin: 0,
+      display: 'flex',
+      justifyContent: 'stretch',
+      flexWrap: 'wrap',
+      width: '100%',
+      gap: '20px',
       }}
-      />
+       >
+      {record.product_colors?.map((color, index) => (
+        <Tag key={index} 
+          style={{
+          backgroundColor: color.hex_value, 
+          color: getTextColor(color.hex_value),
+          width: '120px',
+          textAlign: 'center',
+          }} 
+          >
+          {color.colour_name}
+         </Tag>
+          ))}
+         </div>
+       ),
+      rowExpandable: (record) => record.product_colors && record.product_colors.length > 0,
+     }}
+     pagination={{
+       position: ['bottomCenter'],
+     }}
+     />
+   ))}  
+    </>
+   
   )
 }
 
-export default TableList
+export default TableList;
