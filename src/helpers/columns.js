@@ -1,17 +1,12 @@
-import { capitalized } from './firstLetterCapitalized';
-
 
 export const columns = (groupKey) => [
-    { title: groupKey ? capitalized(groupKey.replace(/_/g, ' ')) : 'Products',
-      children: [
-
     {
         title: 'Image',
         dataIndex: 'api_featured_image',
         onHeaderCell: () => ({
             style: { textAlign: 'center' },
           }),
-        render: (text, record) => <img src={text} alt={record.name} style={{ display: 'block', width: '100px', height: 'auto' }} />,
+        render: (text, record) => <img src={text} alt={record.name} style={{ display: 'block', width: '100px', height: '100px' }} />,
     },
     {
         title: 'Name',
@@ -56,7 +51,7 @@ export const columns = (groupKey) => [
         title: 'Price',
         dataIndex: 'price',
         key: 'price',
-        render: (text, record) => `${text} ${record.price_sign}`,
+        render: (text, record) => `${text} ${record.price_sign || '$' }`,
         onCell: () => ({
             style: { minWidth: '50px', padding: '5px', textAlign: 'center' },
           }),
@@ -77,6 +72,5 @@ export const columns = (groupKey) => [
             style: { textAlign: 'center' },
           }),
     },
-  ]
-  },
+
 ];

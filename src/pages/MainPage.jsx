@@ -90,10 +90,9 @@ const MainPage = () => {
       const groupedData = groupBy ? sortGroupedData(groupData(filteredData, groupBy)) : { Products: filteredData };
 
   return (
-    <div>
+    <>
       <div 
-     
-      style={{
+        style={{
         marginBottom: '26px',
         display: 'flex',
         justifyContent: 'space-between',
@@ -109,8 +108,8 @@ const MainPage = () => {
       <Filter dataSource={dataSource} setFilteredData={setFilteredData}/>
       </div>
 
-      <TableList loading={loading} groupedData={groupedData}/>
-    </div>
+      <TableList loading={loading} groupedData={groupedData} groupBy={groupBy}/>
+    </>
   )
 }
 
