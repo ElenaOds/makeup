@@ -1,5 +1,6 @@
 # Makeup store application
 
+[Link to live page](https://makeup-hazel.vercel.app/)
 
 ### Technologies used:
 <ul>
