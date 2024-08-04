@@ -3,9 +3,7 @@ import { columns } from '../helpers/columns';
 import { getTextColor } from '../helpers/colors';
 
 const TableList = ({ loading, groupedData }) => {
-
-
-
+  
 return (
   <>
   {Object.keys(groupedData).map(groupKey => (

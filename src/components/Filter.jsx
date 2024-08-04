@@ -1,11 +1,20 @@
 import { useState, useEffect } from 'react';
-import { Select, Space, Typography } from "antd";
+import { Select, Grid, Typography } from "antd";
+const { useBreakpoint } = Grid;
 
 const Filter = ({dataSource, setFilteredData}) => {
     const [chosenBrands, setChosenBrands] = useState([]);
     const [chosenTags, setChosenTags] = useState([]);
 
-    const { Title } = Typography;
+    const { Text } = Typography;
+    const screens = useBreakpoint();
+
+    
+  const listStyle = {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '8px',
+  }
 
     const brandOptions = () => {
         const brands = [...new Set(dataSource.map(item => item.brand))];
@@ -57,12 +66,19 @@ const Filter = ({dataSource, setFilteredData}) => {
       }, [chosenBrands, chosenTags, dataSource, setFilteredData]);
 
   return (
-    <div>
-    <Space direction="horizontal">
-    
-    <Title level={5}>Filter by brand</Title>
+  
+   <ul style={{ 
+      display: 'flex',
+      gap: '20px',
+    }}>
+    <li style={listStyle}>
+    <Text level={5} 
+    style={{ 
+      color: '#fff',
+    }}>
+      Filter by brand</Text>
     <Select 
-        style={{ width: 240 }}
+        style={{ width: screens.lg ? 240 : 160 }}
         mode="multiple"
         allowClear
         options={brandOptions()}
@@ -70,10 +86,15 @@ const Filter = ({dataSource, setFilteredData}) => {
         onChange={(value) => handleChange(value, 'brand')}
         value={chosenBrands}
     />
-  
-    <Title level={5}>Filter by tags</Title>
+    </li>
+
+    <li style={listStyle}>
+    <Text level={5}
+    style={{ 
+      color: '#fff',
+    }}>Filter by tags</Text>
     <Select
-        style={{ width: 240 }}
+        style={{ width: screens.lg ? 240 : 160 }}
         mode="multiple"
         allowClear
         placeholder="Choose tags"
@@ -81,9 +102,8 @@ const Filter = ({dataSource, setFilteredData}) => {
         onChange={(value) => handleChange(value, 'tag')}
         value={chosenTags}
     />
-    
-    </Space>
-    </div>
+    </li>
+ </ul>
   )
 }
 

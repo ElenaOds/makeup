@@ -4,6 +4,8 @@ import TableList from '../components/TableList';
 import SwitchList from '../components/SwitchList';
 import Filter from '../components/Filter';
 
+import { Grid } from 'antd';
+const { useBreakpoint } = Grid;
 
 const MainPage = () => {
     const [ dataSource, setDataSource ] = useState ([]);
@@ -11,8 +13,10 @@ const MainPage = () => {
     const [ groupByBrand, setGroupByBrand ] = useState(false);
     const [ groupByCategory, setGroupByCategory ] = useState(false);
     const [ groupByType, setGroupByType ] = useState(false);
-    const [filteredData, setFilteredData] = useState([]);
-  
+    const [ filteredData, setFilteredData ] = useState([]);
+
+    const screens = useBreakpoint();
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -77,7 +81,7 @@ const MainPage = () => {
         }, {});
       };
   
-      const groupBy = groupByBrand ? 'brand' 
+      const groupBy = groupByBrand ? 'brand'
       : groupByCategory ? 'category' 
       : groupByType ? 'product_type' 
       : null;
@@ -87,11 +91,23 @@ const MainPage = () => {
 
   return (
     <div>
+      <div 
+     
+      style={{
+        marginBottom: '26px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: screens.lg ? 'row' : 'column',
+      }}
+      >
       <SwitchList groupByBrand={groupByBrand} handleGroupByBrand={handleGroupByBrand}
       handleGroupByCategory={handleGroupByCategory} groupByCategory={groupByCategory}
-      groupByType={groupByType} handleGroupByType={handleGroupByType}/> 
-
+      groupByType={groupByType} handleGroupByType={handleGroupByType}
+      /> 
+    
       <Filter dataSource={dataSource} setFilteredData={setFilteredData}/>
+      </div>
 
       <TableList loading={loading} groupedData={groupedData}/>
     </div>
